@@ -15,16 +15,15 @@ This game allow you to retrieve a Sudoku grid, complete it using any CSV reader 
 
 Which will return a CSV response like, replace 0 by the correct number:
 <p>
-0,1,2,3,4,5,6,7,8<br/>
-7,5,0,9,6,4,2,0,0<br/> 
-8,3,6,0,0,7,4,9,0<br/>
-0,2,0,5,3,0,1,7,6<br/>
-5,1,4,0,8,0,9,2,0<br/>
-9,7,0,4,0,0,6,8,1<br/>
-2,0,0,3,9,0,7,5,4<br/>
-0,4,0,8,0,3,5,1,9<br/>
-0,8,0,6,7,9,3,4,0<br/>
-3,9,2,0,4,5,8,0,0<br/>
+1,2,4,0,6,0,8,0,3<br />
+6,0,8,5,2,0,4,0,7<br />
+0,5,0,3,8,0,1,6,2<br />
+7,0,5,6,0,2,9,1,0<br />
+0,6,0,8,0,5,7,2,4<br />
+0,8,1,9,0,7,6,3,0<br />
+0,1,2,4,7,6,0,8,0<br />
+4,0,3,0,5,8,0,7,6<br />
+8,7,0,0,9,3,5,0,1<br />
 </p>
 
 2. Once complete you can upload it to the server using a request like:

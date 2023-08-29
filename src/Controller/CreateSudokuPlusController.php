@@ -10,7 +10,8 @@ use App\Services\SudokuPlusService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
 #[Route('/create', name: 'create_sudoku_plus', methods: ['POST'])]
 class CreateSudokuPlusController extends AbstractController
@@ -18,7 +19,7 @@ class CreateSudokuPlusController extends AbstractController
 
     public function __construct(
         readonly SudokuPlusService $sudokuPlusService,
-        readonly SerializerInterface $serializer
+        readonly EncoderInterface $encoder
     ){
     }
 
@@ -26,7 +27,7 @@ class CreateSudokuPlusController extends AbstractController
     {
         $game = $this->sudokuPlusService->generateGrid($request->gridSize)->toArray();
 
-        $csvContent = $this->serializer->serialize($game, 'csv');
+        $csvContent = $this->encoder->encode($game, 'csv', [CsvEncoder::NO_HEADERS_KEY => true]);
 
         $response = new Response($csvContent);
         $response->headers->set('Content-Type', 'text/csv');

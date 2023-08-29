@@ -30,6 +30,10 @@ class CreateSudokuPlusRequestResolver  implements ValueResolverInterface
             return;
         }
 
+        if (!json_decode($request->getContent())) {
+            throw new BadRequestHttpException('Invalid JSON request');
+        }
+
         $createSudokuPlusRequest = $this->serializer->deserialize(
             $request->getContent(),
             CreateSudokuPlusRequest::class,

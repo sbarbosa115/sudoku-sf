@@ -83,12 +83,13 @@ class Grid
 
     /**
      * Takes the current grid and prepare it for the game removing some numbers.
+     * @param int $difficulty How empty will be the grid. The higher the number the more empty the grid will be.
      */
-    public function prepareGridForPlay(): void
+    public function prepareGridForPlay(int $difficulty = 70): void
     {
-        $gridLength = (int) sqrt(count($this->cells));
+        $cellsToEmpty = (int) round(floor(($difficulty / 100) * count($this->cells)));
         foreach ($this->cells as $row => $columns) {
-            $keysToBeEmpty = array_rand($this->cells[$row], $gridLength);
+            $keysToBeEmpty = array_rand($this->cells[$row], $cellsToEmpty);
 
             foreach ($keysToBeEmpty as $key) {
                 $this->cells[$row][$key] = 0;

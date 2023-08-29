@@ -30,7 +30,13 @@ class SubmitSudokuPlusRequestResolver implements ValueResolverInterface
             return;
         }
 
-        $csv = str_getcsv($request->getContent(), "\n");
+        if ($request->files->count() === 0) {
+            throw new BadRequestHttpException('No file provided');
+        }
+
+        $file = $request->files->all()[0];
+
+        $csv = str_getcsv($file->getContent(), "\n");
 
         foreach ($csv as $key => $row) {
             $rowAsString = str_getcsv($row);
