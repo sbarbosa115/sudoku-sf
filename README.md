@@ -1,8 +1,5 @@
-# Symfony Docker
-
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html), HTTP/3 and HTTPS support.
-
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+# Sudoku Plus
+This game allow you to retrieve a Sudoku grid, complete it using any CSV reader and submit it to the server to check if it's correct.
 
 ## Getting Started
 
@@ -24,23 +21,8 @@ A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony
 * Just 2 services (PHP FPM and Caddy server)
 * Super-readable configuration
 
-**Enjoy!**
-
-## Docs
-
-1. [Build options](docs/build.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using a Makefile](docs/makefile.md)
-8. [Troubleshooting](docs/troubleshooting.md)
-
-## License
-
-Symfony Docker is available under the MIT License.
-
 ## Credits
 
-Created by [Kévin Dunglas](https://dunglas.fr), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+
+
+

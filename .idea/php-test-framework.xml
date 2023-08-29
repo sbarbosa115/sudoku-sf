@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpTestFrameworkVersionCache">
+    <tools_cache>
+      <tool tool_name="PHPUnit">
+        <cache>
+          <versions>
+            <info id="Local/home/sbarbosa115/Documents/Training/symfony-docker/vendor/autoload.php" version="PHPUnit version can't be detected. Default PHP interpreter is not local" />
+            <info id="interpreter-e7a6a92e-3aa9-4322-afeb-bca9d404717f" version="9.6.11" />
+          </versions>
+        </cache>
+      </tool>
+    </tools_cache>
+  </component>
+</project>
