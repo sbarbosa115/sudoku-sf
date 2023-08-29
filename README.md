@@ -8,8 +8,103 @@ This game allow you to retrieve a Sudoku grid, complete it using any CSV reader 
 4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
 5. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
+## API Documentation
+
+### Create a new Sudoku grid
+
+`POST /create`
+
+    curl -X POST --location "https://localhost/create" -H "Content-Type: application/json" \-d "{\"gridSize\": 9}"
+
+#### Ok Response
+
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, private
+    Content-Disposition: attachment; filename="sudoku-plus.csv"
+    Content-Type: text/csv; charset=UTF-8
+    Date: Tue, 29 Aug 2023 16:29:54 GMT
+    Server: Caddy
+    X-Robots-Tag: noindex
+    Content-Length: 162
+
+    0,0,5,0,1,0,0,8,0
+    2,0,6,0,0,0,0,0,9
+    1,0,0,3,0,9,0,0,0
+    0,0,9,8,0,0,0,4,0
+    0,4,1,0,6,0,0,0,0
+    7,0,0,0,0,4,8,0,0
+    0,3,2,0,8,0,0,0,0
+    0,6,0,7,0,0,4,0,0
+    0,1,0,0,0,6,0,0,8
+
+#### Wrong Response
+
+    HTTP/1.1 400 Bad Request
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, private
+    Content-Type: text/html; charset=UTF-8
+    Date: Tue, 29 Aug 2023 16:32:18 GMT
+    Server: Caddy
+    Status: 400 Bad Request
+    X-Robots-Tag: noindex
+    Content-Length: 43
+
+    {"message":"Invalid JSON request","code":0}
+
+#### Wrong Response Invalid data
+
+    HTTP/1.1 400 Bad Request
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, private
+    Content-Type: text/html; charset=UTF-8
+    Date: Tue, 29 Aug 2023 16:41:21 GMT
+    Server: Caddy
+    Status: 400 Bad Request
+    X-Robots-Tag: noindex
+    Content-Length: 134
+
+    {"message":"Object(App\\Controller\\Request\\CreateSudokuPlusRequest):\n    Number provider is not valid for a grid size!\n","code":0}
+
+
+### Submit a solution to be validated by the server
+
+`POST /submit`
+
+    curl -X POST --location "https://localhost/submit" -H "Content-Type: multipart/form-data; boundary=boundary" -F "csv_files=@full_path_to_csv_file_including_extension;type=*/*
+
+#### Ok Response
+
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, private
+    Content-Disposition: attachment; filename="sudoku-plus.csv"
+    Content-Type: text/csv; charset=UTF-8
+    Date: Tue, 29 Aug 2023 16:29:54 GMT
+    Server: Caddy
+    X-Robots-Tag: noindex
+    Content-Length: 162
+
+    { "message": "Congratulations, you completed the game!" }
+
+#### Wrong Response
+
+    HTTP/1.1 400 Bad Request
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, private
+    Content-Type: text/html; charset=UTF-8
+    Date: Tue, 29 Aug 2023 16:38:06 GMT
+    Server: Caddy
+    Status: 400 Bad Request
+    X-Robots-Tag: noindex
+    Content-Length: 39
+
+    {"message":"No file provided","code":0}
+
+
 ## How To Play
-1. Generate a new game sending a request like, [Require Curl installed](https://everything.curl.dev/get)
+1. Generate a new game sending a request like, [Require Curl installed](https://everything.curl.dev/get).
+The parameter gridSize is optional and will default to 9 if not provided. It represents the size of the grid to be generated.
 
 ```curl -X POST --location "http://localhost/create" -H "Content-Type: application/json" \-d "{\"gridSize\": 9}"```
 
@@ -36,7 +131,6 @@ Which fill return if your answer is correct or not.
 Once every request is sent, there is a layer of dto-conversion then validation before reaching any controller. Any validation logic will be place
 at the DTO level using Symfony Validation. Once the request is validated, the controller will call the service layer to perform the business logic.
 in this case a service that creates or validates a Sudoku grid.
-
 
 ## Tests
 For running the whole suite execute the following command:
