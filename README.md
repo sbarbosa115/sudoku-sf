@@ -9,11 +9,11 @@ This game allow you to retrieve a Sudoku grid, complete it using any CSV reader 
 5. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
 ## How To Play
-1. Generate a new game sending a request like:
+1. Generate a new game sending a request like, [Require Curl installed](https://everything.curl.dev/get)
 
 ```curl -X POST --location "http://localhost/create" -H "Content-Type: application/json" \-d "{\"gridSize\": 9}"```
 
-Which will return a CSV response like, replace 0 by the correct number:
+Which will return a CSV response to play in any file text editor or excel. For playing you need to 0 by the correct number:
 <p>
 1,2,4,0,6,0,8,0,3<br />
 6,0,8,5,2,0,4,0,7<br />
@@ -26,20 +26,17 @@ Which will return a CSV response like, replace 0 by the correct number:
 8,7,0,0,9,3,5,0,1<br />
 </p>
 
-2. Once complete you can upload it to the server using a request like:
+2. Once completed you can upload it to the server using a request like:
 
-```curl -X POST --location "http://localhost/submit" -H "Content-Type: text/csv" --data-binary "@<path_to_csv_file>"```
+```curl -X POST --location "https://localhost/submit" -H "Content-Type: multipart/form-data; boundary=boundary" -F "csv_files=@full_path_to_csv_file_including_extension;type=*/*"```
 
-## Features
-* Production, development and CI ready
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and in prod!)
-* HTTP/2, HTTP/3 and [Preload](https://symfony.com/doc/current/web_link.html) support
-* Built-in [Mercure](https://symfony.com/doc/current/mercure.html) hub
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Just 2 services (PHP FPM and Caddy server)
-* Super-readable configuration
+Which fill return if your answer is correct or not.
+
+## How it works
+Once every request is sent, there is a layer of dto-conversion then validation before reaching any controller. Any validation logic will be place
+at the DTO level using Symfony Validation. Once the request is validated, the controller will call the service layer to perform the business logic.
+in this case a service that creates or validates a Sudoku grid.
+
 
 ## Tests
 For running the whole suite execute the following command:

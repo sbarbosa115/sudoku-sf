@@ -21,13 +21,14 @@ class CreateSudokuPlusControllerTest extends WebTestCase
 
         // Response should be 200
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('text/csv; charset=UTF-8', $response->headers->all()['content-type']);
     }
 
     public function testFailedResponseWrongGridLength(): void
     {
         $client = static::createClient();
 
-        $client->request(method: 'POST', uri: '/create', server: ['CONTENT_TYPE' => 'application/json'], content: json_encode([
+        $client->request(method: 'POST', uri: '/create', content: json_encode([
             'gridSize' => 5
         ]));
 

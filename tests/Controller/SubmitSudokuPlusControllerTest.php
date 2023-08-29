@@ -19,7 +19,7 @@ class SubmitSudokuPlusControllerTest extends WebTestCase
             'file.csv',
         );
 
-        $client->request(method: 'PUT', uri: '/submit', files: [
+        $client->request(method: 'POST', uri: '/submit', files: [
             $file
         ], server: ['CONTENT_TYPE' => 'application/csv']);
 
@@ -39,7 +39,7 @@ class SubmitSudokuPlusControllerTest extends WebTestCase
             'file.csv',
         );
 
-        $client->request(method: 'PUT', uri: '/submit', files: [
+        $client->request(method: 'POST', uri: '/submit', files: [
             $file
         ], server: ['CONTENT_TYPE' => 'application/csv']);
 
@@ -54,12 +54,56 @@ class SubmitSudokuPlusControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-
-        $client->request(method: 'PUT', uri: '/submit', server: ['CONTENT_TYPE' => 'application/csv']);
+        $client->request(method: 'POST', uri: '/submit', server: ['CONTENT_TYPE' => 'application/csv']);
 
         $response = $client->getResponse();
 
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertStringContainsString('{"message":"No file provided","code":0}', $response->getContent());
+    }
+
+    /**
+     * This covers scenarios in which numbers are not allowed.
+     */
+    public function testSubmitIncorrectNumbersSudoku(): void
+    {
+        $client = static::createClient();
+
+        $file = new UploadedFile(
+            dirname(__FILE__) . '/_data/sudoku-incorrect-data-forbidden-numbers.csv',
+            'file.csv',
+        );
+
+        $client->request(method: 'POST', uri: '/submit', files: [
+            $file
+        ], server: ['CONTENT_TYPE' => 'application/csv']);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertStringContainsString('The number provided [36] is not valid in the position 8,8\n","code":0}', $response->getContent());
+        $this->assertStringContainsString('The number provided [-1] is not valid in the position 5,3', $response->getContent());
+    }
+
+    /**
+     * This covers scenarios in which numbers are not allowed.
+     */
+    public function testSubmitIncorrectCharactersSudoku(): void
+    {
+        $client = static::createClient();
+
+        $file = new UploadedFile(
+            dirname(__FILE__) . '/_data/sudoku-incorrect-data-characters.csv',
+            'file.csv',
+        );
+
+        $client->request(method: 'POST', uri: '/submit', files: [
+            $file
+        ], server: ['CONTENT_TYPE' => 'application/csv']);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertStringContainsString('CSV contains non-number values.', $response->getContent());
     }
 }

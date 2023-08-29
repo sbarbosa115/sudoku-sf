@@ -34,7 +34,8 @@ class SubmitSudokuPlusRequestResolver implements ValueResolverInterface
             throw new BadRequestHttpException('No file provided');
         }
 
-        $file = $request->files->all()[0];
+        $files = $request->files->all();
+        $file = end($files);
 
         $csv = str_getcsv($file->getContent(), "\n");
 
@@ -42,6 +43,10 @@ class SubmitSudokuPlusRequestResolver implements ValueResolverInterface
             $rowAsString = str_getcsv($row);
 
             foreach ($rowAsString as $rowAsStringKey => $value) {
+                if (!is_numeric($value)) {
+                    throw new BadRequestHttpException('CSV contains non-number values.');
+                }
+
                 $rowAsString[$rowAsStringKey] = (int) $value;
             }
 

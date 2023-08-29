@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
+// This will create a brand new Sudoku Plus game for play.
 #[Route('/create', name: 'create_sudoku_plus', methods: ['POST'])]
 class CreateSudokuPlusController extends AbstractController
 {

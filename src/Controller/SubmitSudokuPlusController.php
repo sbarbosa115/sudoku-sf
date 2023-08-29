@@ -10,7 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/submit', name: 'submit_sudoku_plus', methods: ['PUT'])]
+// This will allow player to upload a sudoku plus game to be validated.
+#[Route('/submit', name: 'submit_sudoku_plus', methods: ['POST'])]
 class SubmitSudokuPlusController extends AbstractController
 {
 
