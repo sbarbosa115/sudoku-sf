@@ -17,6 +17,7 @@ class Grid
         if (count($cells) === 0) {
             $this->cells = array_fill(0, $gridLength, array_fill(0, $gridLength, 0));
             $this->generateNumbers();
+            $this->prepareGridForPlay();
         } else {
             $this->cells = $cells;
         }
@@ -78,6 +79,21 @@ class Grid
         }
 
         return true;
+    }
+
+    /**
+     * Takes the current grid and prepare it for the game removing some numbers.
+     */
+    public function prepareGridForPlay(): void
+    {
+        $gridLength = (int) sqrt(count($this->cells));
+        foreach ($this->cells as $row => $columns) {
+            $keysToBeEmpty = array_rand($this->cells[$row], $gridLength);
+
+            foreach ($keysToBeEmpty as $key) {
+                $this->cells[$row][$key] = 0;
+            }
+        }
     }
 
     public function toArray(): array

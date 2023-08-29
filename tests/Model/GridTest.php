@@ -12,7 +12,6 @@ class GridTest extends TestCase
 
     private function assertValidNumber(array $cells, int $row, int $col, int $value): void
     {
-
         $this->assertTrue(in_array($value, $cells[$row]));
 
         $this->assertTrue(in_array($value, array_column($cells, $col)));

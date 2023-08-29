@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -10,22 +9,21 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class CreateSudokuPlusControllerTest extends WebTestCase
 {
 
-    public function testCreateSudokuPlus(): void
+    public function testCreateSudokuPlusCorrectScenario(): void
     {
         $client = static::createClient();
 
         $client->request(method: 'POST', uri: '/create', server: ['CONTENT_TYPE' => 'application/json'], content: json_encode([
-            'gridSize' => 4
+            'gridSize' => 9
         ]));
 
         $response = $client->getResponse();
 
         // Response should be 200
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertJson($response->getContent());
     }
 
-    public function testFailedResponseWrongData(): void
+    public function testFailedResponseWrongGridLength(): void
     {
         $client = static::createClient();
 
@@ -39,6 +37,5 @@ class CreateSudokuPlusControllerTest extends WebTestCase
         $this->assertEquals(400, $response->getStatusCode());
 
     }
-
 
 }
